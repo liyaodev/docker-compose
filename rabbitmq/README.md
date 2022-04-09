@@ -1,0 +1,6 @@
+## rabbitmq
+
+### standalone
+
+
+### cluster

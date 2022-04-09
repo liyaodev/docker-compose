@@ -1,0 +1,18 @@
+version: '3.5'
+
+services:
+  rabbitmq:
+    container_name: builder-rabbitmq
+    image: rabbitmq:3.8.5-management
+    ports:
+      - 5672:5672
+      - 15672:15672
+    environment:
+      RABBITMQ_DEFAULT_USER: "admin123"
+      RABBITMQ_DEFAULT_PASS: "admin123"
+    volumes:
+      - ${DOCKER_ROOT_DIR:-.}/volumes/rabbitmq/data:/var/lib/rabbitmq
+
+networks:
+  default:
+    name: builder_dev

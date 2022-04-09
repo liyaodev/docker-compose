@@ -1,0 +1,25 @@
+version: '3.5'
+
+services:
+  mongo:
+    container_name: builder-mongo
+    image: mongo:5.0
+    ports:
+      - 27017:27017
+    volumes:
+      - ${DOCKER_ROOT_DIR:-.}/volumes/mongo/data:/data/db
+    entrypoint: ["/usr/bin/mongod", "--replSet", "rs0", "--bind_ip_all", "--port", "27017"]
+
+  mongo-setup:
+    container_name: builder-mongo-setup
+    image: mongo:5.0
+    restart: "no"
+    volumes:
+      - ./scripts:/scripts
+    entrypoint: [ "bash", "/scripts/mongo_init.sh"]
+    depends_on:
+      - mongo
+
+networks:
+  default:
+    name: builder_dev

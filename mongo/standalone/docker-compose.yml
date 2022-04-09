@@ -1,0 +1,17 @@
+version: '3.5'
+
+services:
+  mongo:
+    container_name: builder-mongo
+    image: mongo:5.0
+    ports:
+      - 27017:27017
+    environment:
+      MONGO_INITDB_ROOT_USERNAME: "admin123"
+      MONGO_INITDB_ROOT_PASSWORD: "admin123"
+    volumes:
+      - ${DOCKER_ROOT_DIR:-.}/volumes/mongo/data:/data/db
+
+networks:
+  default:
+    name: builder_dev
