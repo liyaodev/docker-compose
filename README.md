@@ -6,10 +6,10 @@
 
 | 名称 | 功能 | 备注 |
 | :--- | :--- | :--- |
-| [etcd](./etcd) | Go 语言编写的分布式、高可用的一致性键值存储系统，用于提供可靠的分布式键值(key-value)存储、配置共享和服务发现等功能 |      |
-| [mongo](./mongo) | 基于分布式文件存储的数据库。 由C++ 语言编写。 旨在为WEB 应用提供可扩展的高性能数据存储解决方案。 MongoDB 是一个介于关系数据库和非关系数据库之间的产品，是非关系数据库当中功能最丰富，最像关系数据库的库 |      |
-| [mysql](./mysql) | 最流行的关系型数据库管理系统，在 WEB 应用方面 MySQL 是最好的RDBMS(Relational Database Management System：关系数据库管理系统)应用软件之一 |      |
-| [rabbitmq](./rabbitmq) | 实现了高级消息队列协议（AMQP）的开源消息代理软件（亦称面向消息的中间件）。RabbitMQ服务器是用Erlang语言编写的 |      |
+| [etcd](./etcd) | Go 语言编写的分布式、高可用的一致性键值存储系统，用于提供可靠的分布式键值(key-value)存储、配置共享和服务发现等功能 | standalone、cluster |
+| [mongo](./mongo) | 基于分布式文件存储的数据库。 由C++ 语言编写。 旨在为WEB 应用提供可扩展的高性能数据存储解决方案。 MongoDB 是一个介于关系数据库和非关系数据库之间的产品，是非关系数据库当中功能最丰富，最像关系数据库的库 | standalone、cluster |
+| [mysql](./mysql) | 最流行的关系型数据库管理系统，在 WEB 应用方面 MySQL 是最好的RDBMS(Relational Database Management System：关系数据库管理系统)应用软件之一 | standalone |
+| [rabbitmq](./rabbitmq) | 实现了高级消息队列协议（AMQP）的开源消息代理软件（亦称面向消息的中间件）。RabbitMQ服务器是用Erlang语言编写的 | standalone |
 
 
 ## docker-compose 常用命令
