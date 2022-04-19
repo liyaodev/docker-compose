@@ -7,8 +7,8 @@ services:
     ports:
       - 27017:27017
     environment:
-      MONGO_INITDB_ROOT_USERNAME: "admin123"
-      MONGO_INITDB_ROOT_PASSWORD: "admin123"
+      - MONGO_INITDB_ROOT_USERNAME=admin123
+      - MONGO_INITDB_ROOT_PASSWORD=admin123
     volumes:
       - ${DOCKER_ROOT_DIR:-.}/volumes/mongo/data:/data/db
 
