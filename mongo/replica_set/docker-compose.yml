@@ -1,0 +1,45 @@
+version: '3.5'
+
+services:
+  mongo1:
+    container_name: builder-mongo1
+    image: mongo:5.0
+    ports:
+      - 27017:27017
+    volumes:
+      - ${DOCKER_ROOT_DIR:-.}/volumes/mongo1/data:/data/db
+    entrypoint: ["/usr/bin/mongod", "--replSet", "rs0", "--bind_ip_all", "--port", "27017"]
+
+  mongo2:
+    container_name: builder-mongo2
+    image: mongo:5.0
+    ports:
+      - 27018:27017
+    volumes:
+      - ${DOCKER_ROOT_DIR:-.}/volumes/mongo2/data:/data/db
+    entrypoint: ["/usr/bin/mongod", "--replSet", "rs0", "--bind_ip_all", "--port", "27017"]
+
+  mongo3:
+    container_name: builder-mongo3
+    image: mongo:5.0
+    ports:
+      - 27019:27017
+    volumes:
+      - ${DOCKER_ROOT_DIR:-.}/volumes/mongo3/data:/data/db
+    entrypoint: ["/usr/bin/mongod", "--replSet", "rs0", "--bind_ip_all", "--port", "27017"]
+
+  mongo-setup:
+    container_name: builder-mongo-setup
+    image: mongo:5.0
+    restart: "no"
+    volumes:
+      - ./scripts:/scripts
+    entrypoint: [ "bash", "/scripts/mongo_init.sh"]
+    depends_on:
+      - mongo1
+      - mongo2
+      - mongo3
+
+networks:
+  default:
+    name: builder_dev

@@ -2,8 +2,12 @@
 
 ### standalone
 
-[standalone](./standalone/)
+[单节点](./standalone/)
 
-### cluster
+### replica_set
 
-[cluster](./cluster/)
+[副本集](./replica_set/)
+
+### sharding
+
+[分片集群](./sharding/)

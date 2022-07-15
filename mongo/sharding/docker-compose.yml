@@ -1,0 +1,110 @@
+version: '3.5'
+
+services:
+  # Shards Server
+  shard01a:
+    container_name: builder-mongo-shard01a
+    image: mongo:5.0
+    volumes:
+      - ${DOCKER_ROOT_DIR:-.}/volumes/shard01a/data:/data/db
+    entrypoint: ["/usr/bin/mongod", "--shardsvr", "--replSet", "shard01", "--bind_ip_all", "--port", "27017"]
+
+  shard01b:
+    container_name: builder-mongo-shard01b
+    image: mongo:5.0
+    volumes:
+      - ${DOCKER_ROOT_DIR:-.}/volumes/shard01b/data:/data/db
+    entrypoint: ["/usr/bin/mongod", "--shardsvr", "--replSet", "shard01", "--bind_ip_all", "--port", "27017"]
+
+  shard02a:
+    container_name: builder-mongo-shard02a
+    image: mongo:5.0
+    volumes:
+      - ${DOCKER_ROOT_DIR:-.}/volumes/shard02a/data:/data/db
+    entrypoint: ["/usr/bin/mongod", "--shardsvr", "--replSet", "shard02", "--bind_ip_all", "--port", "27017"]
+
+  shard02b:
+    container_name: builder-mongo-shard02b
+    image: mongo:5.0
+    volumes:
+      - ${DOCKER_ROOT_DIR:-.}/volumes/shard02b/data:/data/db
+    entrypoint: ["/usr/bin/mongod", "--shardsvr", "--replSet", "shard02", "--bind_ip_all", "--port", "27017"]
+
+  shard03a:
+    container_name: builder-mongo-shard03a
+    image: mongo:5.0
+    volumes:
+      - ${DOCKER_ROOT_DIR:-.}/volumes/shard03a/data:/data/db
+    entrypoint: ["/usr/bin/mongod", "--shardsvr", "--replSet", "shard03", "--bind_ip_all", "--port", "27017"]
+
+  shard03b:
+    container_name: builder-mongo-shard03b
+    image: mongo:5.0
+    volumes:
+      - ${DOCKER_ROOT_DIR:-.}/volumes/shard03b/data:/data/db
+    entrypoint: ["/usr/bin/mongod", "--shardsvr", "--replSet", "shard03", "--bind_ip_all", "--port", "27017"]
+
+  # Config Server
+  config01:
+    container_name: builder-mongo-config01
+    image: mongo:5.0
+    volumes:
+      - ${DOCKER_ROOT_DIR:-.}/volumes/config01/data:/data/db
+    entrypoint: ["/usr/bin/mongod", "--configsvr", "--replSet", "configserver", "--bind_ip_all", "--port", "27017"]
+
+  config02:
+    container_name: builder-mongo-config02
+    image: mongo:5.0
+    volumes:
+      - ${DOCKER_ROOT_DIR:-.}/volumes/config02/data:/data/db
+    entrypoint: ["/usr/bin/mongod", "--configsvr", "--replSet", "configserver", "--bind_ip_all", "--port", "27017"]
+
+  config03:
+    container_name: builder-mongo-config03
+    image: mongo:5.0
+    volumes:
+      - ${DOCKER_ROOT_DIR:-.}/volumes/config03/data:/data/db
+    entrypoint: ["/usr/bin/mongod", "--configsvr", "--replSet", "configserver", "--bind_ip_all", "--port", "27017"]
+
+  # 路由节点
+  mongos01:
+    container_name: builder-mongos01
+    image: mongo:5.0
+    ports:
+      - 27017:27017
+    volumes:
+      - ${DOCKER_ROOT_DIR:-.}/volumes/mongos01/data:/data/db
+    entrypoint: ["/usr/bin/mongos", "--configdb", "configserver/config01:27017,config02:27017,config03:27017", "--bind_ip_all", "--port", "27017"]
+
+  mongos02:
+    container_name: builder-mongos02
+    image: mongo:5.0
+    ports:
+      - 27018:27017
+    volumes:
+      - ${DOCKER_ROOT_DIR:-.}/volumes/mongos02/data:/data/db
+    entrypoint: ["/usr/bin/mongos", "--configdb", "configserver/config01:27017,config02:27017,config03:27017", "--bind_ip_all", "--port", "27017"]
+
+  mongo-setup:
+    container_name: builder-mongo-setup
+    image: mongo:5.0
+    restart: "no"
+    volumes:
+      - ./scripts:/scripts
+    entrypoint: [ "bash", "/scripts/mongo_init.sh"]
+    depends_on:
+      - shard01a
+      - shard01b
+      - shard02a
+      - shard02b
+      - shard03a
+      - shard03b
+      - config01
+      - config02
+      - config03
+      - mongos01
+      - mongos02
+
+networks:
+  default:
+    name: builder_dev
